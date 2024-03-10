@@ -4,14 +4,14 @@ class UserController {
   /**
    * Método que cria o usuário.
    * Aguarda o usuário ser criado na BD com base nos dados enviados no corpo da requisição.
-   * Carrega o usuário criado exibindo somente os campos: id, nome e email na requisição da página.
+   * Carrega o usuário criado exibindo somente os campos: id, name e email na requisição da página.
    * Caso haja erros, lista e carrega na requisição da página.
    */
   async store(req, res) {
     try {
       const novoUser = await User.create(req.body);
-      const { id, nome, email } = novoUser;
-      return res.json({ id, nome, email });
+      const { id, name, email } = novoUser;
+      return res.json({ id, name, email });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
@@ -27,7 +27,7 @@ class UserController {
   async index(req, res) {
     try {
       const users = await User.findAll({
-        attributes: ['id', 'nome', 'email'],
+        attributes: ['id', 'name', 'email'],
         order: [['id', 'DESC']],
       });
       return res.json(users);
@@ -52,7 +52,7 @@ class UserController {
         });
       }
       const user = await User.findByPk(id, {
-        attributes: ['id', 'nome', 'email'],
+        attributes: ['id', 'name', 'email'],
         order: [['id', 'DESC']],
       });
       if (!user) {
@@ -60,8 +60,8 @@ class UserController {
           errors: ['Usuário não encontrado'],
         });
       }
-      const { nome, email } = user;
-      return res.json({ id, nome, email });
+      const { name, email } = user;
+      return res.json({ id, name, email });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
@@ -74,7 +74,7 @@ class UserController {
    * Aguarda o usuário ser buscado na BD com base no ID enviado na requisição.
    * Verifica se o usuário existe e/ou é válido.
    * Aguarda o usuário ser editado na BD com base nos dados enviados no corpo da requisição.
-   * Carrega o usuário editado exibindo os campos id, nome e email na requisição da página.
+   * Carrega o usuário editado exibindo os campos id, name e email na requisição da página.
    * Caso haja erros, lista e carrega na requisição da página.
    */
   async update(req, res) {
@@ -86,9 +86,9 @@ class UserController {
         });
       }
       const novosDados = await user.update(req.body);
-      const { id, nome, email } = novosDados;
+      const { id, name, email } = novosDados;
 
-      return res.json({ id, nome, email });
+      return res.json({ id, name, email });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
